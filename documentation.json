@@ -936,7 +936,7 @@
         },
         {
             "name": "TaskComponent",
-            "id": "component-TaskComponent-564fc2691eaf33f3dc03cfcc73ad6a03",
+            "id": "component-TaskComponent-5583f030d3d8f5e23f278b118dbb4663",
             "file": "src/app/components/task.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -946,13 +946,13 @@
             "selector": "app-task",
             "styleUrls": [],
             "styles": [],
-            "template": "<div class=\"list-item {{task?.state}}\">\n  <label class=\"checkbox\">\n    <input type=\"checkbox\" [defaultChecked]=\"task?.state === 'TASK_ARCHIVED'\" disabled name=\"checked\">\n    <span class=\"checkbox-custom\" (change)=\"onArchive(task)\"></span>\n  </label>\n\n  <div class=\"title\">\n    <input type=\"text\" [value]=\"task.title\" readonly placeholder=\"Input Title\">\n  </div>\n\n  <div class=\"actions\">\n    <a *ngIf=\"task?.state !== 'TASK_ARCHIVED'\" (click)=\"onPin(task.id)\">\n      <span class=\"icon-star\"></span>\n    </a>\n  </div>\n</div>\n",
+            "template": "<div class=\"list-item {{task?.state}}\">\n  <label class=\"checkbox\">\n    <input type=\"checkbox\" [defaultChecked]=\"task?.state === 'TASK_ARCHIVED'\" disabled name=\"checked\">\n    <span class=\"checkbox-custom\" (change)=\"onArchive(task)\"></span>\n  </label>\n\n  <div class=\"icon-arrow-right\"></div>\n\n  <div class=\"title\">\n    <input type=\"text\" [value]=\"task.title\" readonly placeholder=\"Input Title\">\n  </div>\n\n  <div class=\"actions\">\n    <a *ngIf=\"task?.state !== 'TASK_ARCHIVED'\" (click)=\"onPin(task.id)\">\n      <span class=\"icon-star\"></span>\n    </a>\n  </div>\n</div>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
                 {
                     "name": "task",
-                    "line": 27,
+                    "line": 29,
                     "type": "TaskModel"
                 }
             ],
@@ -960,19 +960,19 @@
                 {
                     "name": "archiveTask",
                     "defaultValue": "new EventEmitter<string>()",
-                    "line": 30,
+                    "line": 32,
                     "type": "EventEmitter"
                 },
                 {
                     "name": "pinTask",
                     "defaultValue": "new EventEmitter<string>()",
-                    "line": 29,
+                    "line": 31,
                     "type": "EventEmitter"
                 },
                 {
                     "name": "unArchiveTask",
                     "defaultValue": "new EventEmitter<string>()",
-                    "line": 31,
+                    "line": 33,
                     "type": "EventEmitter"
                 }
             ],
@@ -989,7 +989,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 33,
+                    "line": 35,
                     "jsdoctags": [
                         {
                             "name": "task",
@@ -1011,7 +1011,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 41,
+                    "line": 43,
                     "jsdoctags": [
                         {
                             "name": "taskId",
@@ -1028,7 +1028,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, Output} from '@angular/core';\r\nimport {TaskModel} from '../models/task.model';\r\n\r\n@Component({\r\n  selector: 'app-task',\r\n  template: `\r\n    <div class=\"list-item {{task?.state}}\">\r\n      <label class=\"checkbox\">\r\n        <input type=\"checkbox\" [defaultChecked]=\"task?.state === 'TASK_ARCHIVED'\" disabled name=\"checked\">\r\n        <span class=\"checkbox-custom\" (change)=\"onArchive(task)\"></span>\r\n      </label>\r\n\r\n      <div class=\"title\">\r\n        <input type=\"text\" [value]=\"task.title\" readonly placeholder=\"Input Title\">\r\n      </div>\r\n\r\n      <div class=\"actions\">\r\n        <a *ngIf=\"task?.state !== 'TASK_ARCHIVED'\" (click)=\"onPin(task.id)\">\r\n          <span class=\"icon-star\"></span>\r\n        </a>\r\n      </div>\r\n    </div>\r\n  `\r\n})\r\nexport class TaskComponent {\r\n\r\n  @Input() task: TaskModel;\r\n\r\n  @Output() pinTask =  new EventEmitter<string>();\r\n  @Output() archiveTask =  new EventEmitter<string>();\r\n  @Output() unArchiveTask =  new EventEmitter<string>();\r\n\r\n  onArchive(task: TaskModel): void {\r\n    if (task.state === 'TASK_ARCHIVED') {\r\n      this.unArchiveTask.emit(task.id);\r\n      return;\r\n    }\r\n    this.archiveTask.emit(task.id);\r\n  }\r\n\r\n  onPin(taskId: string): void {\r\n    this.pinTask.emit(taskId);\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {Component, EventEmitter, Input, Output} from '@angular/core';\r\nimport {TaskModel} from '../models/task.model';\r\n\r\n@Component({\r\n  selector: 'app-task',\r\n  template: `\r\n    <div class=\"list-item {{task?.state}}\">\r\n      <label class=\"checkbox\">\r\n        <input type=\"checkbox\" [defaultChecked]=\"task?.state === 'TASK_ARCHIVED'\" disabled name=\"checked\">\r\n        <span class=\"checkbox-custom\" (change)=\"onArchive(task)\"></span>\r\n      </label>\r\n\r\n      <div class=\"icon-arrow-right\"></div>\r\n\r\n      <div class=\"title\">\r\n        <input type=\"text\" [value]=\"task.title\" readonly placeholder=\"Input Title\">\r\n      </div>\r\n\r\n      <div class=\"actions\">\r\n        <a *ngIf=\"task?.state !== 'TASK_ARCHIVED'\" (click)=\"onPin(task.id)\">\r\n          <span class=\"icon-star\"></span>\r\n        </a>\r\n      </div>\r\n    </div>\r\n  `\r\n})\r\nexport class TaskComponent {\r\n\r\n  @Input() task: TaskModel;\r\n\r\n  @Output() pinTask =  new EventEmitter<string>();\r\n  @Output() archiveTask =  new EventEmitter<string>();\r\n  @Output() unArchiveTask =  new EventEmitter<string>();\r\n\r\n  onArchive(task: TaskModel): void {\r\n    if (task.state === 'TASK_ARCHIVED') {\r\n      this.unArchiveTask.emit(task.id);\r\n      return;\r\n    }\r\n    this.archiveTask.emit(task.id);\r\n  }\r\n\r\n  onPin(taskId: string): void {\r\n    this.pinTask.emit(taskId);\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ""

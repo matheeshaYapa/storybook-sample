@@ -11,7 +11,7 @@ import {TaskModel} from '../models/task.model';
                 [task]="task">
       </app-task>
 
-      <div *ngIf="!loading && tasksInOrder.length === 0" class="wrapper-message">
+      <div *ngIf="!loading && tasksInOrder?.length === 0" class="wrapper-message">
         <span class="icon-check"></span>
         <div class="title-message">You have No tasks</div>
         <div class="subtitle-message">Sit back and relax</div>

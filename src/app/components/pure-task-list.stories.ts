@@ -20,7 +20,7 @@ export default {
 const Template: Story<PureTaskListComponent> = args => ({
   props: {
     ...args,
-    pinTask: TaskStories.actionsData.pinTAsk,
+    pinTask: TaskStories.actionsData.pinTask,
     archiveTask: TaskStories.actionsData.archiveTask
   }
 });

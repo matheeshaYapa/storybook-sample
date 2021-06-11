@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {TaskModel} from '../models/task.model';
 import {Select, Store} from '@ngxs/store';
-import {ArchiveTask, PinTask, TasksState} from '../state/task.state';
+import {ArchiveTask, PinTask, TasksState, UnArchiveTask} from '../state/task.state';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -11,6 +11,7 @@ import {Observable} from 'rxjs';
       [tasks]="tasks$ | async"
       (pinTask)="pinTask($event)"
       (archiveTask)="archiveTask($event)"
+      (unArchiveTask)="unArchiveTask($event)"
     ></app-pure-task-list>
   `
 })
@@ -23,6 +24,10 @@ export class TaskListComponent {
 
   archiveTask(id: string): void {
     this.store.dispatch(new ArchiveTask(id));
+  }
+
+  unArchiveTask(id: string): void {
+    this.store.dispatch(new UnArchiveTask(id));
   }
 
   pinTask(id: string): void {

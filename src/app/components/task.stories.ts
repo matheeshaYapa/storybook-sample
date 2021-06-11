@@ -17,14 +17,16 @@ export default {
 
 export const actionsData = {
   pinTask: action('pinTask'),
-  archiveTask: action('archiveTask')
+  archiveTask: action('archiveTask'),
+  unArchiveTask: action('unArchiveTask')
 };
 
 const Template: Story<TaskComponent> = args => ({
   props: {
     ...args,
     pinTask: actionsData.pinTask,
-    archiveTask: actionsData.archiveTask
+    archiveTask: actionsData.archiveTask,
+    unArchiveTask: actionsData.unArchiveTask
   }
 });
 

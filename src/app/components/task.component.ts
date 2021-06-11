@@ -7,7 +7,7 @@ import {TaskModel} from '../models/task.model';
     <div class="list-item {{task?.state}}">
       <label class="checkbox">
         <input type="checkbox" [defaultChecked]="task?.state === 'TASK_ARCHIVED'" disabled name="checked">
-        <span class="checkbox-custom" (click)="onArchive(task.id)"></span>
+        <span class="checkbox-custom" (change)="onArchive(task)"></span>
       </label>
 
       <div class="title">
@@ -28,9 +28,14 @@ export class TaskComponent {
 
   @Output() pinTask =  new EventEmitter<string>();
   @Output() archiveTask =  new EventEmitter<string>();
+  @Output() unArchiveTask =  new EventEmitter<string>();
 
-  onArchive(taskId: string): void {
-    this.archiveTask.emit(taskId);
+  onArchive(task: TaskModel): void {
+    if (task.state === 'TASK_ARCHIVED') {
+      this.unArchiveTask.emit(task.id);
+      return;
+    }
+    this.archiveTask.emit(task.id);
   }
 
   onPin(taskId: string): void {

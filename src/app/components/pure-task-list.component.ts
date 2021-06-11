@@ -7,6 +7,7 @@ import {TaskModel} from '../models/task.model';
     <div class="list-items">
       <app-task *ngFor="let task of tasksInOrder"
                 (archiveTask)="archiveTask.emit($event)"
+                (unArchiveTask)="unArchiveTask.emit($event)"
                 (pinTask)="pinTask.emit($event)"
                 [task]="task">
       </app-task>
@@ -34,6 +35,7 @@ export class PureTaskListComponent {
 
   @Output() pinTask = new EventEmitter<string>();
   @Output() archiveTask = new EventEmitter<string>();
+  @Output() unArchiveTask = new EventEmitter<string>();
 
   tasksInOrder = new Array<TaskModel>();
 

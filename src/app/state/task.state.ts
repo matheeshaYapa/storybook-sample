@@ -3,12 +3,19 @@ import {Action, Selector, State, StateContext} from '@ngxs/store';
 
 export const actions = {
   ARCHIVE_TASK: 'ARCHIVE_TASK',
+  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',
   PIN_TASK: 'PIN_TASK',
   ERROR: 'APP_ERROR'
 };
 
 export class ArchiveTask {
   static readonly type = actions.ARCHIVE_TASK;
+
+  constructor(public payload: string) {}
+}
+
+export class UnArchiveTask {
+  static readonly type = actions.UN_ARCHIVE_TASK;
 
   constructor(public payload: string) {}
 }
@@ -78,6 +85,18 @@ export class TasksState {
     const entities = {
       ...state,
       [payload]: {...state[payload], state: 'TASK_ARCHIVED'}
+    };
+
+    patchState({entities});
+  }
+
+  @Action(UnArchiveTask)
+  unArchiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: UnArchiveTask): void {
+    const state = getState().entities;
+
+    const entities = {
+      ...state,
+      [payload]: {...state[payload], state: 'TASK_INBOX'}
     };
 
     patchState({entities});

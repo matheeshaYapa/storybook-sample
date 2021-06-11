@@ -11,7 +11,7 @@ import {TaskModel} from '../models/task.model';
       </label>
 
       <div class="title">
-        <input type="text" [value]="task.title" readonly placeholder="Input Title" style="background: red">
+        <input type="text" [value]="task.title" readonly placeholder="Input Title" style="background: greenyellow">
       </div>
 
       <div class="actions">

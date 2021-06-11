@@ -39,10 +39,10 @@
     "classes": [
         {
             "name": "AppError",
-            "id": "class-AppError-388d4e046e429423b0b69e3b233c7b51",
+            "id": "class-AppError-5b826cb66f983fbe2dd59db2018f4f23",
             "file": "src/app/state/task.state.ts",
             "type": "class",
-            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class UnArchiveTask {\r\n  static readonly type = actions.UN_ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(UnArchiveTask)\r\n  unArchiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: UnArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_INBOX'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -52,7 +52,7 @@
                         "type": "boolean"
                     }
                 ],
-                "line": 23,
+                "line": 30,
                 "jsdoctags": [
                     {
                         "name": "payload",
@@ -69,7 +69,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 25,
+                    "line": 32,
                     "modifierKind": [
                         114
                     ]
@@ -80,7 +80,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 23,
+                    "line": 30,
                     "modifierKind": [
                         115,
                         132
@@ -96,10 +96,10 @@
         },
         {
             "name": "ArchiveTask",
-            "id": "class-ArchiveTask-388d4e046e429423b0b69e3b233c7b51",
+            "id": "class-ArchiveTask-5b826cb66f983fbe2dd59db2018f4f23",
             "file": "src/app/state/task.state.ts",
             "type": "class",
-            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class UnArchiveTask {\r\n  static readonly type = actions.UN_ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(UnArchiveTask)\r\n  unArchiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: UnArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_INBOX'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -109,7 +109,7 @@
                         "type": "string"
                     }
                 ],
-                "line": 11,
+                "line": 12,
                 "jsdoctags": [
                     {
                         "name": "payload",
@@ -126,7 +126,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 13,
+                    "line": 14,
                     "modifierKind": [
                         114
                     ]
@@ -137,7 +137,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 11,
+                    "line": 12,
                     "modifierKind": [
                         115,
                         132
@@ -153,10 +153,10 @@
         },
         {
             "name": "PinTask",
-            "id": "class-PinTask-388d4e046e429423b0b69e3b233c7b51",
+            "id": "class-PinTask-5b826cb66f983fbe2dd59db2018f4f23",
             "file": "src/app/state/task.state.ts",
             "type": "class",
-            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class UnArchiveTask {\r\n  static readonly type = actions.UN_ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(UnArchiveTask)\r\n  unArchiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: UnArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_INBOX'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -166,7 +166,7 @@
                         "type": "string"
                     }
                 ],
-                "line": 17,
+                "line": 24,
                 "jsdoctags": [
                     {
                         "name": "payload",
@@ -183,7 +183,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 19,
+                    "line": 26,
                     "modifierKind": [
                         114
                     ]
@@ -194,7 +194,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 17,
+                    "line": 24,
                     "modifierKind": [
                         115,
                         132
@@ -210,10 +210,10 @@
         },
         {
             "name": "TasksState",
-            "id": "class-TasksState-388d4e046e429423b0b69e3b233c7b51",
+            "id": "class-TasksState-5b826cb66f983fbe2dd59db2018f4f23",
             "file": "src/app/state/task.state.ts",
             "type": "class",
-            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class UnArchiveTask {\r\n  static readonly type = actions.UN_ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(UnArchiveTask)\r\n  unArchiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: UnArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_INBOX'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
             "properties": [],
             "methods": [
                 {
@@ -229,7 +229,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 75,
+                    "line": 82,
                     "decorators": [
                         {
                             "name": "Action",
@@ -262,7 +262,7 @@
                     "optional": false,
                     "returnType": "any[]",
                     "typeParameters": [],
-                    "line": 51,
+                    "line": 58,
                     "decorators": [
                         {
                             "name": "Selector",
@@ -293,7 +293,7 @@
                     "optional": false,
                     "returnType": "boolean",
                     "typeParameters": [],
-                    "line": 57,
+                    "line": 64,
                     "decorators": [
                         {
                             "name": "Selector",
@@ -326,7 +326,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 63,
+                    "line": 70,
                     "decorators": [
                         {
                             "name": "Action",
@@ -361,7 +361,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 87,
+                    "line": 106,
                     "decorators": [
                         {
                             "name": "Action",
@@ -382,30 +382,122 @@
                             }
                         }
                     ]
+                },
+                {
+                    "name": "unArchiveTask",
+                    "args": [
+                        {
+                            "type": "StateContext<TaskStateModel>"
+                        },
+                        {
+                            "type": "UnArchiveTask"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 94,
+                    "decorators": [
+                        {
+                            "name": "Action",
+                            "stringifiedArguments": "UnArchiveTask"
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "type": "StateContext<TaskStateModel>",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "type": "UnArchiveTask",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
                 }
             ],
             "indexSignatures": []
         },
         {
             "name": "TaskStateModel",
-            "id": "class-TaskStateModel-388d4e046e429423b0b69e3b233c7b51",
+            "id": "class-TaskStateModel-5b826cb66f983fbe2dd59db2018f4f23",
             "file": "src/app/state/task.state.ts",
             "type": "class",
-            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class UnArchiveTask {\r\n  static readonly type = actions.UN_ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(UnArchiveTask)\r\n  unArchiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: UnArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_INBOX'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
             "properties": [
                 {
                     "name": "entities",
                     "type": "literal type",
                     "optional": false,
                     "description": "",
-                    "line": 38
+                    "line": 45
                 },
                 {
                     "name": "error",
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 39
+                    "line": 46
+                }
+            ],
+            "methods": [],
+            "indexSignatures": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "hostBindings": [],
+            "hostListeners": []
+        },
+        {
+            "name": "UnArchiveTask",
+            "id": "class-UnArchiveTask-5b826cb66f983fbe2dd59db2018f4f23",
+            "file": "src/app/state/task.state.ts",
+            "type": "class",
+            "sourceCode": "import {TaskModel} from '../models/task.model';\r\nimport {Action, Selector, State, StateContext} from '@ngxs/store';\r\n\r\nexport const actions = {\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n};\r\n\r\nexport class ArchiveTask {\r\n  static readonly type = actions.ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class UnArchiveTask {\r\n  static readonly type = actions.UN_ARCHIVE_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class PinTask {\r\n  static readonly type = actions.PIN_TASK;\r\n\r\n  constructor(public payload: string) {}\r\n}\r\n\r\nexport class AppError {\r\n  static readonly type = actions.ERROR;\r\n\r\n  constructor(public payload: boolean) {}\r\n}\r\n\r\n\r\nconst defaultTasks = {\r\n  1: {id: '1', title: 'Something', state: 'TASK_INBOX'},\r\n  2: {id: '2', title: 'Something more', state: 'TASK_INBOX'},\r\n  3: {id: '3', title: 'Something else', state: 'TASK_INBOX'},\r\n  4: {id: '4', title: 'Something else again', state: 'TASK_INBOX'},\r\n  5: {id: '5', title: 'Something last', state: 'TASK_INBOX'}\r\n};\r\n\r\nexport class TaskStateModel {\r\n  entities: { [id: number]: TaskModel};\r\n  error: boolean;\r\n}\r\n\r\n@State<TaskStateModel>({\r\n  name: 'tasks',\r\n  defaults: {\r\n    entities: defaultTasks,\r\n    error: false\r\n  }\r\n})\r\nexport class TasksState {\r\n  @Selector()\r\n  static getAllTasks(state: TaskStateModel): any[] {\r\n    const entities = state.entities;\r\n    return Object.keys(entities).map(id => entities[id]);\r\n  }\r\n\r\n  @Selector()\r\n  static getError(state: TaskStateModel): boolean {\r\n    const {error} = state;\r\n    return error;\r\n  }\r\n\r\n  @Action(PinTask)\r\n  pinTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: PinTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_PINNED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(ArchiveTask)\r\n  archiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: ArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_ARCHIVED'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(UnArchiveTask)\r\n  unArchiveTask({patchState, getState}: StateContext<TaskStateModel>, {payload}: UnArchiveTask): void {\r\n    const state = getState().entities;\r\n\r\n    const entities = {\r\n      ...state,\r\n      [payload]: {...state[payload], state: 'TASK_INBOX'}\r\n    };\r\n\r\n    patchState({entities});\r\n  }\r\n\r\n  @Action(AppError)\r\n  setAppError({patchState, getState}: StateContext<TaskStateModel>, {payload}: AppError): void {\r\n    const state = getState();\r\n\r\n    patchState({\r\n      error: !state.error\r\n    });\r\n  }\r\n\r\n}\r\n",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "args": [
+                    {
+                        "name": "payload",
+                        "type": "string"
+                    }
+                ],
+                "line": 18,
+                "jsdoctags": [
+                    {
+                        "name": "payload",
+                        "type": "string",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "properties": [
+                {
+                    "name": "payload",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 20,
+                    "modifierKind": [
+                        114
+                    ]
+                },
+                {
+                    "name": "type",
+                    "defaultValue": "actions.UN_ARCHIVE_TASK",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18,
+                    "modifierKind": [
+                        115,
+                        132
+                    ]
                 }
             ],
             "methods": [],
@@ -750,7 +842,7 @@
         },
         {
             "name": "PureTaskListComponent",
-            "id": "component-PureTaskListComponent-290d6bcf5e9d51aae3f140f327f92a99",
+            "id": "component-PureTaskListComponent-4b7d15b645bc13f88fee9b6bfdcf0cb3",
             "file": "src/app/components/pure-task-list.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -760,18 +852,18 @@
             "selector": "app-pure-task-list",
             "styleUrls": [],
             "styles": [],
-            "template": "<div class=\"list-items\">\n  <app-task *ngFor=\"let task of tasksInOrder\"\n            (archiveTask)=\"archiveTask.emit($event)\"\n            (pinTask)=\"pinTask.emit($event)\"\n            [task]=\"task\">\n  </app-task>\n\n  <div *ngIf=\"!loading && tasksInOrder?.length === 0\" class=\"wrapper-message\">\n    <span class=\"icon-check\"></span>\n    <div class=\"title-message\">You have No tasks</div>\n    <div class=\"subtitle-message\">Sit back and relax</div>\n  </div>\n\n  <div *ngIf=\"loading\">\n    <div *ngFor=\"let i of [1, 2, 3, 4, 5, 6]\" class=\"loading-item\">\n      <span class=\"glow-checkbox\"></span>\n      <span class=\"glow-text\">\n        <span>Loading</span><span>Cool</span><span>state</span>\n      </span>\n    </div>\n  </div>\n</div>\n",
+            "template": "<div class=\"list-items\">\n  <app-task *ngFor=\"let task of tasksInOrder\"\n            (archiveTask)=\"archiveTask.emit($event)\"\n            (unArchiveTask)=\"unArchiveTask.emit($event)\"\n            (pinTask)=\"pinTask.emit($event)\"\n            [task]=\"task\">\n  </app-task>\n\n  <div *ngIf=\"!loading && tasksInOrder?.length === 0\" class=\"wrapper-message\">\n    <span class=\"icon-check\"></span>\n    <div class=\"title-message\">You have No tasks</div>\n    <div class=\"subtitle-message\">Sit back and relax</div>\n  </div>\n\n  <div *ngIf=\"loading\">\n    <div *ngFor=\"let i of [1, 2, 3, 4, 5, 6]\" class=\"loading-item\">\n      <span class=\"glow-checkbox\"></span>\n      <span class=\"glow-text\">\n        <span>Loading</span><span>Cool</span><span>state</span>\n      </span>\n    </div>\n  </div>\n</div>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
                 {
                     "name": "loading",
                     "defaultValue": "false",
-                    "line": 33
+                    "line": 34
                 },
                 {
                     "name": "tasks",
-                    "line": 40,
+                    "line": 42,
                     "type": ""
                 }
             ],
@@ -779,13 +871,19 @@
                 {
                     "name": "archiveTask",
                     "defaultValue": "new EventEmitter<string>()",
-                    "line": 36,
+                    "line": 37,
                     "type": "EventEmitter"
                 },
                 {
                     "name": "pinTask",
                     "defaultValue": "new EventEmitter<string>()",
-                    "line": 35,
+                    "line": 36,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "unArchiveTask",
+                    "defaultValue": "new EventEmitter<string>()",
+                    "line": 38,
                     "type": "EventEmitter"
                 }
             ],
@@ -796,7 +894,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 38
+                    "line": 40
                 }
             ],
             "methodsClass": [],
@@ -805,7 +903,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import {Component, Input, Output, EventEmitter} from '@angular/core';\r\nimport {TaskModel} from '../models/task.model';\r\n\r\n@Component({\r\n  selector: 'app-pure-task-list',\r\n  template: `\r\n    <div class=\"list-items\">\r\n      <app-task *ngFor=\"let task of tasksInOrder\"\r\n                (archiveTask)=\"archiveTask.emit($event)\"\r\n                (pinTask)=\"pinTask.emit($event)\"\r\n                [task]=\"task\">\r\n      </app-task>\r\n\r\n      <div *ngIf=\"!loading && tasksInOrder?.length === 0\" class=\"wrapper-message\">\r\n        <span class=\"icon-check\"></span>\r\n        <div class=\"title-message\">You have No tasks</div>\r\n        <div class=\"subtitle-message\">Sit back and relax</div>\r\n      </div>\r\n\r\n      <div *ngIf=\"loading\">\r\n        <div *ngFor=\"let i of [1, 2, 3, 4, 5, 6]\" class=\"loading-item\">\r\n          <span class=\"glow-checkbox\"></span>\r\n          <span class=\"glow-text\">\r\n            <span>Loading</span><span>Cool</span><span>state</span>\r\n          </span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  `\r\n})\r\nexport class PureTaskListComponent {\r\n\r\n  @Input() loading = false;\r\n\r\n  @Output() pinTask = new EventEmitter<string>();\r\n  @Output() archiveTask = new EventEmitter<string>();\r\n\r\n  tasksInOrder = new Array<TaskModel>();\r\n\r\n  @Input() set tasks(arr: Array<TaskModel>) {\r\n    this.tasksInOrder = [\r\n      ...arr.filter(t => t.state === 'TASK_PINNED'),\r\n      ...arr.filter(t => t.state !== 'TASK_PINNED')\r\n    ];\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {Component, Input, Output, EventEmitter} from '@angular/core';\r\nimport {TaskModel} from '../models/task.model';\r\n\r\n@Component({\r\n  selector: 'app-pure-task-list',\r\n  template: `\r\n    <div class=\"list-items\">\r\n      <app-task *ngFor=\"let task of tasksInOrder\"\r\n                (archiveTask)=\"archiveTask.emit($event)\"\r\n                (unArchiveTask)=\"unArchiveTask.emit($event)\"\r\n                (pinTask)=\"pinTask.emit($event)\"\r\n                [task]=\"task\">\r\n      </app-task>\r\n\r\n      <div *ngIf=\"!loading && tasksInOrder?.length === 0\" class=\"wrapper-message\">\r\n        <span class=\"icon-check\"></span>\r\n        <div class=\"title-message\">You have No tasks</div>\r\n        <div class=\"subtitle-message\">Sit back and relax</div>\r\n      </div>\r\n\r\n      <div *ngIf=\"loading\">\r\n        <div *ngFor=\"let i of [1, 2, 3, 4, 5, 6]\" class=\"loading-item\">\r\n          <span class=\"glow-checkbox\"></span>\r\n          <span class=\"glow-text\">\r\n            <span>Loading</span><span>Cool</span><span>state</span>\r\n          </span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  `\r\n})\r\nexport class PureTaskListComponent {\r\n\r\n  @Input() loading = false;\r\n\r\n  @Output() pinTask = new EventEmitter<string>();\r\n  @Output() archiveTask = new EventEmitter<string>();\r\n  @Output() unArchiveTask = new EventEmitter<string>();\r\n\r\n  tasksInOrder = new Array<TaskModel>();\r\n\r\n  @Input() set tasks(arr: Array<TaskModel>) {\r\n    this.tasksInOrder = [\r\n      ...arr.filter(t => t.state === 'TASK_PINNED'),\r\n      ...arr.filter(t => t.state !== 'TASK_PINNED')\r\n    ];\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -822,7 +920,7 @@
                             }
                         ],
                         "returnType": "void",
-                        "line": 40,
+                        "line": 42,
                         "jsdoctags": [
                             {
                                 "name": "arr",
@@ -838,7 +936,7 @@
         },
         {
             "name": "TaskComponent",
-            "id": "component-TaskComponent-25ee8aae914a269b2eace729b40c67b6",
+            "id": "component-TaskComponent-564fc2691eaf33f3dc03cfcc73ad6a03",
             "file": "src/app/components/task.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -848,7 +946,7 @@
             "selector": "app-task",
             "styleUrls": [],
             "styles": [],
-            "template": "<div class=\"list-item {{task?.state}}\">\n  <label class=\"checkbox\">\n    <input type=\"checkbox\" [defaultChecked]=\"task?.state === 'TASK_ARCHIVED'\" disabled name=\"checked\">\n    <span class=\"checkbox-custom\" (click)=\"onArchive(task.id)\"></span>\n  </label>\n\n  <div class=\"title\">\n    <input type=\"text\" [value]=\"task.title\" readonly placeholder=\"Input Title\">\n  </div>\n\n  <div class=\"actions\">\n    <a *ngIf=\"task?.state !== 'TASK_ARCHIVED'\" (click)=\"onPin(task.id)\">\n      <span class=\"icon-star\"></span>\n    </a>\n  </div>\n</div>\n",
+            "template": "<div class=\"list-item {{task?.state}}\">\n  <label class=\"checkbox\">\n    <input type=\"checkbox\" [defaultChecked]=\"task?.state === 'TASK_ARCHIVED'\" disabled name=\"checked\">\n    <span class=\"checkbox-custom\" (change)=\"onArchive(task)\"></span>\n  </label>\n\n  <div class=\"title\">\n    <input type=\"text\" [value]=\"task.title\" readonly placeholder=\"Input Title\">\n  </div>\n\n  <div class=\"actions\">\n    <a *ngIf=\"task?.state !== 'TASK_ARCHIVED'\" (click)=\"onPin(task.id)\">\n      <span class=\"icon-star\"></span>\n    </a>\n  </div>\n</div>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [
@@ -870,6 +968,12 @@
                     "defaultValue": "new EventEmitter<string>()",
                     "line": 29,
                     "type": "EventEmitter"
+                },
+                {
+                    "name": "unArchiveTask",
+                    "defaultValue": "new EventEmitter<string>()",
+                    "line": 31,
+                    "type": "EventEmitter"
                 }
             ],
             "propertiesClass": [],
@@ -878,18 +982,18 @@
                     "name": "onArchive",
                     "args": [
                         {
-                            "name": "taskId",
-                            "type": "string"
+                            "name": "task",
+                            "type": "TaskModel"
                         }
                     ],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 32,
+                    "line": 33,
                     "jsdoctags": [
                         {
-                            "name": "taskId",
-                            "type": "string",
+                            "name": "task",
+                            "type": "TaskModel",
                             "tagName": {
                                 "text": "param"
                             }
@@ -907,7 +1011,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 36,
+                    "line": 41,
                     "jsdoctags": [
                         {
                             "name": "taskId",
@@ -924,14 +1028,14 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, Output} from '@angular/core';\r\nimport {TaskModel} from '../models/task.model';\r\n\r\n@Component({\r\n  selector: 'app-task',\r\n  template: `\r\n    <div class=\"list-item {{task?.state}}\">\r\n      <label class=\"checkbox\">\r\n        <input type=\"checkbox\" [defaultChecked]=\"task?.state === 'TASK_ARCHIVED'\" disabled name=\"checked\">\r\n        <span class=\"checkbox-custom\" (click)=\"onArchive(task.id)\"></span>\r\n      </label>\r\n\r\n      <div class=\"title\">\r\n        <input type=\"text\" [value]=\"task.title\" readonly placeholder=\"Input Title\">\r\n      </div>\r\n\r\n      <div class=\"actions\">\r\n        <a *ngIf=\"task?.state !== 'TASK_ARCHIVED'\" (click)=\"onPin(task.id)\">\r\n          <span class=\"icon-star\"></span>\r\n        </a>\r\n      </div>\r\n    </div>\r\n  `\r\n})\r\nexport class TaskComponent {\r\n\r\n  @Input() task: TaskModel;\r\n\r\n  @Output() pinTask =  new EventEmitter<string>();\r\n  @Output() archiveTask =  new EventEmitter<string>();\r\n\r\n  onArchive(taskId: string): void {\r\n    this.archiveTask.emit(taskId);\r\n  }\r\n\r\n  onPin(taskId: string): void {\r\n    this.pinTask.emit(taskId);\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {Component, EventEmitter, Input, Output} from '@angular/core';\r\nimport {TaskModel} from '../models/task.model';\r\n\r\n@Component({\r\n  selector: 'app-task',\r\n  template: `\r\n    <div class=\"list-item {{task?.state}}\">\r\n      <label class=\"checkbox\">\r\n        <input type=\"checkbox\" [defaultChecked]=\"task?.state === 'TASK_ARCHIVED'\" disabled name=\"checked\">\r\n        <span class=\"checkbox-custom\" (change)=\"onArchive(task)\"></span>\r\n      </label>\r\n\r\n      <div class=\"title\">\r\n        <input type=\"text\" [value]=\"task.title\" readonly placeholder=\"Input Title\">\r\n      </div>\r\n\r\n      <div class=\"actions\">\r\n        <a *ngIf=\"task?.state !== 'TASK_ARCHIVED'\" (click)=\"onPin(task.id)\">\r\n          <span class=\"icon-star\"></span>\r\n        </a>\r\n      </div>\r\n    </div>\r\n  `\r\n})\r\nexport class TaskComponent {\r\n\r\n  @Input() task: TaskModel;\r\n\r\n  @Output() pinTask =  new EventEmitter<string>();\r\n  @Output() archiveTask =  new EventEmitter<string>();\r\n  @Output() unArchiveTask =  new EventEmitter<string>();\r\n\r\n  onArchive(task: TaskModel): void {\r\n    if (task.state === 'TASK_ARCHIVED') {\r\n      this.unArchiveTask.emit(task.id);\r\n      return;\r\n    }\r\n    this.archiveTask.emit(task.id);\r\n  }\r\n\r\n  onPin(taskId: string): void {\r\n    this.pinTask.emit(taskId);\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": ""
         },
         {
             "name": "TaskListComponent",
-            "id": "component-TaskListComponent-f47e5ccc0f2e49c9443408128de803b0",
+            "id": "component-TaskListComponent-c4c3f1c33353c42972aadc6bce4cd22f",
             "file": "src/app/components/task-list.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -941,7 +1045,7 @@
             "selector": "app-task-list",
             "styleUrls": [],
             "styles": [],
-            "template": "<app-pure-task-list\n  [tasks]=\"tasks$ | async\"\n  (pinTask)=\"pinTask($event)\"\n  (archiveTask)=\"archiveTask($event)\"\n></app-pure-task-list>\n",
+            "template": "<app-pure-task-list\n  [tasks]=\"tasks$ | async\"\n  (pinTask)=\"pinTask($event)\"\n  (archiveTask)=\"archiveTask($event)\"\n  (unArchiveTask)=\"unArchiveTask($event)\"\n></app-pure-task-list>\n",
             "templateUrl": [],
             "viewProviders": [],
             "inputsClass": [],
@@ -952,7 +1056,7 @@
                     "type": "Observable<TaskModel[]>",
                     "optional": false,
                     "description": "",
-                    "line": 19,
+                    "line": 20,
                     "decorators": [
                         {
                             "name": "Select",
@@ -973,7 +1077,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 24,
+                    "line": 25,
                     "jsdoctags": [
                         {
                             "name": "id",
@@ -995,7 +1099,29 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 28,
+                    "line": 33,
+                    "jsdoctags": [
+                        {
+                            "name": "id",
+                            "type": "string",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "unArchiveTask",
+                    "args": [
+                        {
+                            "name": "id",
+                            "type": "string"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
                     "jsdoctags": [
                         {
                             "name": "id",
@@ -1012,7 +1138,7 @@
             "description": "",
             "rawdescription": "",
             "type": "component",
-            "sourceCode": "import {Component} from '@angular/core';\r\nimport {TaskModel} from '../models/task.model';\r\nimport {Select, Store} from '@ngxs/store';\r\nimport {ArchiveTask, PinTask, TasksState} from '../state/task.state';\r\nimport {Observable} from 'rxjs';\r\n\r\n@Component({\r\n  selector: 'app-task-list',\r\n  template: `\r\n    <app-pure-task-list\r\n      [tasks]=\"tasks$ | async\"\r\n      (pinTask)=\"pinTask($event)\"\r\n      (archiveTask)=\"archiveTask($event)\"\r\n    ></app-pure-task-list>\r\n  `\r\n})\r\nexport class TaskListComponent {\r\n\r\n  @Select(TasksState.getAllTasks) tasks$: Observable<TaskModel[]>;\r\n\r\n  constructor(private store: Store) {\r\n  }\r\n\r\n  archiveTask(id: string): void {\r\n    this.store.dispatch(new ArchiveTask(id));\r\n  }\r\n\r\n  pinTask(id: string): void {\r\n    this.store.dispatch(new PinTask(id));\r\n  }\r\n\r\n}\r\n",
+            "sourceCode": "import {Component} from '@angular/core';\r\nimport {TaskModel} from '../models/task.model';\r\nimport {Select, Store} from '@ngxs/store';\r\nimport {ArchiveTask, PinTask, TasksState, UnArchiveTask} from '../state/task.state';\r\nimport {Observable} from 'rxjs';\r\n\r\n@Component({\r\n  selector: 'app-task-list',\r\n  template: `\r\n    <app-pure-task-list\r\n      [tasks]=\"tasks$ | async\"\r\n      (pinTask)=\"pinTask($event)\"\r\n      (archiveTask)=\"archiveTask($event)\"\r\n      (unArchiveTask)=\"unArchiveTask($event)\"\r\n    ></app-pure-task-list>\r\n  `\r\n})\r\nexport class TaskListComponent {\r\n\r\n  @Select(TasksState.getAllTasks) tasks$: Observable<TaskModel[]>;\r\n\r\n  constructor(private store: Store) {\r\n  }\r\n\r\n  archiveTask(id: string): void {\r\n    this.store.dispatch(new ArchiveTask(id));\r\n  }\r\n\r\n  unArchiveTask(id: string): void {\r\n    this.store.dispatch(new UnArchiveTask(id));\r\n  }\r\n\r\n  pinTask(id: string): void {\r\n    this.store.dispatch(new PinTask(id));\r\n  }\r\n\r\n}\r\n",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
@@ -1025,7 +1151,7 @@
                         "type": "Store"
                     }
                 ],
-                "line": 19,
+                "line": 20,
                 "jsdoctags": [
                     {
                         "name": "store",
@@ -1141,7 +1267,7 @@
                 "subtype": "variable",
                 "file": "src/app/state/task.state.ts",
                 "type": "object",
-                "defaultValue": "{\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n}"
+                "defaultValue": "{\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n}"
             },
             {
                 "name": "actionsData",
@@ -1149,7 +1275,7 @@
                 "subtype": "variable",
                 "file": "src/app/components/task.stories.ts",
                 "type": "object",
-                "defaultValue": "{\r\n  pinTask: action('pinTask'),\r\n  archiveTask: action('archiveTask')\r\n}"
+                "defaultValue": "{\r\n  pinTask: action('pinTask'),\r\n  archiveTask: action('archiveTask'),\r\n  unArchiveTask: action('unArchiveTask')\r\n}"
             },
             {
                 "name": "Archived",
@@ -1357,7 +1483,7 @@
                 "subtype": "variable",
                 "file": "src/app/components/task.stories.ts",
                 "type": "Story<TaskComponent>",
-                "defaultValue": "args => ({\r\n  props: {\r\n    ...args,\r\n    pinTask: actionsData.pinTask,\r\n    archiveTask: actionsData.archiveTask\r\n  }\r\n})"
+                "defaultValue": "args => ({\r\n  props: {\r\n    ...args,\r\n    pinTask: actionsData.pinTask,\r\n    archiveTask: actionsData.archiveTask,\r\n    unArchiveTask: actionsData.unArchiveTask\r\n  }\r\n})"
             },
             {
                 "name": "WithPinnedTasks",
@@ -1379,7 +1505,7 @@
                     "subtype": "variable",
                     "file": "src/app/state/task.state.ts",
                     "type": "object",
-                    "defaultValue": "{\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n}"
+                    "defaultValue": "{\r\n  ARCHIVE_TASK: 'ARCHIVE_TASK',\r\n  UN_ARCHIVE_TASK: 'UN_ARCHIVE_TASK',\r\n  PIN_TASK: 'PIN_TASK',\r\n  ERROR: 'APP_ERROR'\r\n}"
                 },
                 {
                     "name": "defaultTasks",
@@ -1397,7 +1523,7 @@
                     "subtype": "variable",
                     "file": "src/app/components/task.stories.ts",
                     "type": "object",
-                    "defaultValue": "{\r\n  pinTask: action('pinTask'),\r\n  archiveTask: action('archiveTask')\r\n}"
+                    "defaultValue": "{\r\n  pinTask: action('pinTask'),\r\n  archiveTask: action('archiveTask'),\r\n  unArchiveTask: action('unArchiveTask')\r\n}"
                 },
                 {
                     "name": "Archived",
@@ -1429,7 +1555,7 @@
                     "subtype": "variable",
                     "file": "src/app/components/task.stories.ts",
                     "type": "Story<TaskComponent>",
-                    "defaultValue": "args => ({\r\n  props: {\r\n    ...args,\r\n    pinTask: actionsData.pinTask,\r\n    archiveTask: actionsData.archiveTask\r\n  }\r\n})"
+                    "defaultValue": "args => ({\r\n  props: {\r\n    ...args,\r\n    pinTask: actionsData.pinTask,\r\n    archiveTask: actionsData.archiveTask,\r\n    unArchiveTask: actionsData.unArchiveTask\r\n  }\r\n})"
                 }
             ],
             "src/app/components/pure-inbox-screen.stories.ts": [
@@ -1697,7 +1823,7 @@
                 "linktype": "component",
                 "name": "PureTaskListComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/6",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -1756,7 +1882,7 @@
                 "linktype": "component",
                 "name": "TaskListComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/6",
                 "status": "low"
             },
             {
@@ -1765,7 +1891,7 @@
                 "linktype": "component",
                 "name": "TaskComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/6",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -1860,7 +1986,7 @@
                 "linktype": "classe",
                 "name": "TasksState",
                 "coveragePercent": 0,
-                "coverageCount": "0/6",
+                "coverageCount": "0/7",
                 "status": "low"
             },
             {
@@ -1870,6 +1996,15 @@
                 "name": "TaskStateModel",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/task.state.ts",
+                "type": "class",
+                "linktype": "classe",
+                "name": "UnArchiveTask",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
                 "status": "low"
             },
             {

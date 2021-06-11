@@ -10,6 +10,8 @@ import {TaskModel} from '../models/task.model';
         <span class="checkbox-custom" (change)="onArchive(task)"></span>
       </label>
 
+      <div class="icon-arrow-right"></div>
+
       <div class="title">
         <input type="text" [value]="task.title" readonly placeholder="Input Title">
       </div>

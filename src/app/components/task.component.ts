@@ -6,8 +6,7 @@ import {TaskModel} from '../models/task.model';
   template: `
     <div class="list-item {{task?.state}}">
       <label class="checkbox">
-        <input type="checkbox" [defaultChecked]="task?.state === 'TASK_ARCHIVED'" disabled name="checked"
-            style="background: red">
+        <input type="checkbox" [defaultChecked]="task?.state === 'TASK_ARCHIVED'" disabled name="checked">
         <span class="checkbox-custom" (change)="onArchive(task)"></span>
       </label>
 
